@@ -12,6 +12,9 @@ public class TemplateController {
 
     @RequestHandler(path = "/portfolio-1", method = HttpMethod.GET)
     public String getPortfolio1(@RequirePath(name = "name") String name) {
-        return templateResponse.ok(name, "soon.html");
+        System.out.println("eeeee");
+        templateResponse.setData("name", name);
+        templateResponse.setData("viktor", "car");
+        return templateResponse.ok("soon.html");
     }
 }
