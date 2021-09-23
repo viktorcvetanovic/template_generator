@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+</head>
+<body>
+<h1 id="naslov">Unesite sve potrebne informacije za generisanje izvestaja</h1>
+<form>
+    <label for="firstName">Unesi Ime</label><br>
+    <input type="text" id="firstName"><br>
+    <label for="LastName">Unesi Prezime</label><br>
+    <input type="text" id="lastName"><br>
+
+</form>
+<button onclick="generate(1)">Generisi</button>
+<button onclick="generate(2)">Generisi POST</button>
+<script>
+    function generate(num) {
+        let name = document.getElementById("firstName").value;
+        if (num === 1) {
+            httpGet("http://localhost:7000/template/portfolio-1?name=" + name)
+                .then(data => {
+                    console.log(data);
+                    document.write(data);
+                });
+        } else if (num === 2) {
+            httpPost("http://localhost:7000/template/portfolio-3",
+                {
+                    firstName: document.getElementById("firstName").value,
+                    lastName: document.getElementById("lastName").value
+                })
+                .then(data => {
+                    console.log(data);
+                    document.write(data);
+                });
+        }
+
+    }
+
+    async function httpPost(theUrl, body) {
+        return fetch(theUrl, {
+            method: "POST",
+            body: JSON.stringify(body)
+        })
+            .then(data => {
+                return data.text()
+            });
+    }
+
+
+    async function httpGet(theUrl) {
+        return fetch(theUrl)
+            .then(data => {
+                return data.text()
+            });
+    }
+
+</script>
+</body>
+</html>
